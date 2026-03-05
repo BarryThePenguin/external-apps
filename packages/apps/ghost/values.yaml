@@ -1,0 +1,58 @@
+##
+## @section Common Parameters
+##
+
+## @param {string} storageClass - StorageClass used to store the data.
+storageClass: replicated
+
+##
+## @section Application-specific Parameters
+##
+
+## @enum {string} ResourcesPreset - Default sizing preset.
+## @value nano
+## @value micro
+## @value small
+## @value medium
+## @value large
+## @value xlarge
+## @value 2xlarge
+
+## @typedef {struct} Resources - Explicit CPU and memory configuration for a node or component.
+## @field {quantity} [cpu] - CPU available.
+## @field {quantity} [memory] - Memory (RAM) available.
+
+## @param {int} replicas=1 - Number of Ghost replicas.
+replicas: 1
+
+## @param {string} host - Hostname for external access to Ghost (defaults to 'ghost' subdomain for the tenant host).
+host: ""
+
+## @typedef {struct} AdminConfig - Configuration for the Ghost admin interface.
+## @field {string} url - The URL for the Ghost admin interface (e.g., https://myblog.com/ghost).
+
+## @param {AdminConfig} admin - Configuration for the Ghost admin interface.
+admin: {}
+
+## @typedef {struct} DatabaseConnection - Details for connecting to the database.
+## @field {string} host - The database host address.
+## @field {string} user="ghost" - The database username.
+## @field {string} password - The database password.
+## @field {string} database="ghost" - The name of the database to connect to.
+
+## @typedef {struct} DatabaseConfig - Configuration for the database connection.
+## @field {string} client="mysql" - The database client type
+## @field {DatabaseConnection} connection - The database connection details.
+
+## @param {DatabaseConfig} database - Configuration for the database connection.
+database: {}
+
+## @typedef {struct} TinybirdConfig - Configuration for integrating with Tinybird analytics.
+## @field {string} trackerEndpoint - The endpoint URL for sending tracking data to Tinybird.
+## @field {string} adminToken - The admin token for authenticating with Tinybird.
+## @field {string} workspaceId - The Tinybird workspace ID where data will be sent.
+## @field {string} trackerDatasource="analytics_events" - The Tinybird datasource name for tracking data
+## @field {string} statsEndpoint="https://api.tinybird.co" - The base URL for Tinybird API endpoints.
+
+## @param {TinybirdConfig} tinybird - Configuration for integrating with Tinybird analytics.
+tinybird: {}

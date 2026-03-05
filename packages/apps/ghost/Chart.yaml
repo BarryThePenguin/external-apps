@@ -1,0 +1,8 @@
+apiVersion: v2
+name: ghost
+description: Managed Ghost Service
+type: application
+version: 0.0.0
+appVersion: "6.19.3"
+home: https://ghost.org/
+icon: /logos/ghost.png

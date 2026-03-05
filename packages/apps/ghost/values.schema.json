@@ -1,0 +1,117 @@
+{
+  "title": "Chart Values",
+  "type": "object",
+  "properties": {
+    "admin": {
+      "description": "Configuration for the Ghost admin interface.",
+      "type": "object",
+      "default": {},
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "description": "The URL for the Ghost admin interface (e.g., https://myblog.com/ghost).",
+          "type": "string"
+        }
+      }
+    },
+    "database": {
+      "description": "Configuration for the database connection.",
+      "type": "object",
+      "default": {},
+      "required": [
+        "client",
+        "connection"
+      ],
+      "properties": {
+        "client": {
+          "description": "The database client type",
+          "type": "string",
+          "default": "mysql"
+        },
+        "connection": {
+          "description": "The database connection details.",
+          "type": "object",
+          "required": [
+            "database",
+            "host",
+            "password",
+            "user"
+          ],
+          "properties": {
+            "database": {
+              "description": "The name of the database to connect to.",
+              "type": "string",
+              "default": "ghost"
+            },
+            "host": {
+              "description": "The database host address.",
+              "type": "string"
+            },
+            "password": {
+              "description": "The database password.",
+              "type": "string"
+            },
+            "user": {
+              "description": "The database username.",
+              "type": "string",
+              "default": "ghost"
+            }
+          }
+        }
+      }
+    },
+    "host": {
+      "description": "Hostname for external access to Ghost (defaults to 'ghost' subdomain for the tenant host).",
+      "type": "string",
+      "default": ""
+    },
+    "replicas": {
+      "description": "Number of Ghost replicas.",
+      "type": "integer",
+      "default": 1
+    },
+    "storageClass": {
+      "description": "StorageClass used to store the data.",
+      "type": "string",
+      "default": "replicated"
+    },
+    "tinybird": {
+      "description": "Configuration for integrating with Tinybird analytics.",
+      "type": "object",
+      "default": {},
+      "required": [
+        "adminToken",
+        "statsEndpoint",
+        "trackerDatasource",
+        "trackerEndpoint",
+        "workspaceId"
+      ],
+      "properties": {
+        "adminToken": {
+          "description": "The admin token for authenticating with Tinybird.",
+          "type": "string"
+        },
+        "statsEndpoint": {
+          "description": "The base URL for Tinybird API endpoints.",
+          "type": "string",
+          "default": "https://api.tinybird.co"
+        },
+        "trackerDatasource": {
+          "description": "The Tinybird datasource name for tracking data",
+          "type": "string",
+          "default": "analytics_events"
+        },
+        "trackerEndpoint": {
+          "description": "The endpoint URL for sending tracking data to Tinybird.",
+          "type": "string"
+        },
+        "workspaceId": {
+          "description": "The Tinybird workspace ID where data will be sent.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

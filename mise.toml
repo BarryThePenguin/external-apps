@@ -1,0 +1,6 @@
+[env]
+KUBECONFIG = "{{ env.PROJECTS }}/btp/homelab/kubeconfig"
+TALOSCONFIG = "{{ env.PROJECTS }}/btp/homelab/talosconfig"
+
+[tools]
+yq = "latest"
