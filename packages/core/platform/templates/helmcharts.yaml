@@ -1,0 +1,52 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmChart
+metadata:
+  name: cozylab-minecraft-server
+  namespace: cozy-public
+spec:
+  interval: 5m
+  chart: ./packages/apps/minecraft-server
+  sourceRef:
+    kind: GitRepository
+    name: cozylab
+  reconcileStrategy: Revision
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmChart
+metadata:
+  name: cozylab-minecraft-plugin
+  namespace: cozy-public
+spec:
+  interval: 5m
+  chart: ./packages/apps/minecraft-plugin
+  sourceRef:
+    kind: GitRepository
+    name: cozylab
+  reconcileStrategy: Revision
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmChart
+metadata:
+  name: cozylab-ghost
+  namespace: cozy-public
+spec:
+  interval: 5m
+  chart: ./packages/apps/ghost
+  sourceRef:
+    kind: GitRepository
+    name: cozylab
+  reconcileStrategy: Revision
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmChart
+metadata:
+  name: cozylab-mysql
+  namespace: cozy-public
+spec:
+  interval: 5m
+  chart: ./packages/apps/mysql
+  sourceRef:
+    kind: GitRepository
+    name: cozylab
+  reconcileStrategy: Revision

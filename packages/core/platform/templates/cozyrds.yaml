@@ -1,0 +1,237 @@
+---
+apiVersion: cozystack.io/v1alpha1
+kind: ApplicationDefinition
+metadata:
+  name: minecraft-server
+spec:
+  application:
+    kind: MinecraftServer
+    plural: minecraftservers
+    singular: minecraft-server
+    openAPISchema: '{"title":"Minecraft Server","type":"object","properties":{"updateStrategy":{"description":"Update strategy for Paper version.","type":"string","enum":["latest","auto","pin","build-pin"],"default":"latest"},"version":{"description":"Target Minecraft version (required for pin/build-pin).","type":"string","default":""},"storageSize":{"description":"Persistent volume size for world data.","type":"string","default":"10Gi"},"storageClass":{"description":"Storage class for persistent volumes.","type":"string","default":""},"memoryLimit":{"description":"Memory limit for the server container.","type":"string","default":"2Gi"},"cpuLimit":{"description":"CPU limit for the server container.","type":"string","default":"2000m"},"serviceType":{"description":"Service type.","type":"string","enum":["LoadBalancer","NodePort","ClusterIP"],"default":"LoadBalancer"},"backupEnabled":{"description":"Enable VolumeSnapshot-based backups.","type":"boolean","default":false},"backupSchedule":{"description":"Cron schedule for periodic backups.","type":"string","default":"0 */6 * * *"},"backupRetention":{"description":"Maximum number of backup snapshots to keep.","type":"integer","default":10},"checkCron":{"description":"Cron schedule for checking updates.","type":"string","default":"0 */4 * * *"}}}'
+  release:
+    chartRef:
+      kind: HelmChart
+      name: cozylab-minecraft-server
+      namespace: cozy-public
+    labels:
+      cozystack.io/ui: "true"
+    prefix: minecraft-
+  dashboard:
+    category: PaaS
+    singular: Minecraft Server
+    plural: Minecraft Servers
+    description: Managed PaperMC Minecraft server with automatic updates and plugin management.
+    tags:
+      - gaming
+      - minecraft
+    keysOrder:
+      - - apiVersion
+      - - appVersion
+      - - kind
+      - - metadata
+      - - metadata
+        - name
+      - - spec
+        - updateStrategy
+      - - spec
+        - version
+      - - spec
+        - storageSize
+      - - spec
+        - storageClass
+      - - spec
+        - memoryLimit
+      - - spec
+        - cpuLimit
+      - - spec
+        - serviceType
+      - - spec
+        - backupEnabled
+      - - spec
+        - backupSchedule
+      - - spec
+        - backupRetention
+      - - spec
+        - checkCron
+---
+apiVersion: cozystack.io/v1alpha1
+kind: ApplicationDefinition
+metadata:
+  name: minecraft-plugin
+spec:
+  application:
+    kind: MinecraftPlugin
+    plural: minecraftplugins
+    singular: minecraft-plugin
+    openAPISchema: '{"title":"Minecraft Plugin","type":"object","properties":{"sourceType":{"description":"Plugin source type.","type":"string","enum":["hangar","url"],"default":"hangar"},"project":{"description":"Plugin project identifier on Hangar.","type":"string","default":""},"url":{"description":"Direct download URL (for sourceType: url).","type":"string","default":""},"checksum":{"description":"SHA256 hash of the JAR file.","type":"string","default":""},"updateStrategy":{"description":"Update strategy.","type":"string","enum":["latest","auto","pin","build-pin"],"default":"latest"},"version":{"description":"Target plugin version (required for pin/build-pin).","type":"string","default":""},"instanceSelector":{"description":"Label selector to match PaperMCServer instances.","type":"object","default":{},"properties":{"matchLabels":{"type":"object","additionalProperties":{"type":"string"}}}},"port":{"description":"Network port exposed by this plugin (0 = none).","type":"integer","default":0}}}'
+  release:
+    chartRef:
+      kind: HelmChart
+      name: cozylab-minecraft-plugin
+      namespace: cozy-public
+    labels:
+      cozystack.io/ui: "true"
+    prefix: mcplugin-
+  dashboard:
+    category: PaaS
+    singular: Minecraft Plugin
+    plural: Minecraft Plugins
+    description: Managed Minecraft plugin with automatic version management and compatibility solving.
+    tags:
+      - gaming
+      - minecraft
+    keysOrder:
+      - - apiVersion
+      - - appVersion
+      - - kind
+      - - metadata
+      - - metadata
+        - name
+      - - spec
+        - sourceType
+      - - spec
+        - project
+      - - spec
+        - url
+      - - spec
+        - checksum
+      - - spec
+        - updateStrategy
+      - - spec
+        - version
+      - - spec
+        - instanceSelector
+      - - spec
+        - port
+---
+apiVersion: cozystack.io/v1alpha1
+kind: ApplicationDefinition
+metadata:
+  name: ghost
+spec:
+  application:
+    openAPISchema: '{"title":"Chart Values","type":"object","properties":{"admin":{"description":"Configuration for the Ghost admin interface.","type":"object","default":{},"required":["url"],"properties":{"url":{"description":"The URL for the Ghost admin interface (e.g., https://myblog.com/ghost).","type":"string"}}},"database":{"description":"Configuration for the database connection.","type":"object","default":{},"required":["client","connection"],"properties":{"client":{"description":"The database client type","type":"string","default":"mysql"},"connection":{"description":"The database connection details.","type":"object","required":["database","host","password","user"],"properties":{"database":{"description":"The name of the database to connect to.","type":"string","default":"ghost"},"host":{"description":"The database host address.","type":"string"},"password":{"description":"The database password.","type":"string"},"user":{"description":"The database username.","type":"string","default":"ghost"}}}}},"host":{"description":"Hostname for external access to Ghost (defaults to ''ghost'' subdomain for the tenant host).","type":"string","default":""},"replicas":{"description":"Number of Ghost replicas.","type":"integer","default":1},"storageClass":{"description":"StorageClass used to store the data.","type":"string","default":"replicated"},"tinybird":{"description":"Configuration for integrating with Tinybird analytics.","type":"object","default":{},"required":["adminToken","statsEndpoint","trackerDatasource","trackerEndpoint","workspaceId"],"properties":{"adminToken":{"description":"The admin token for authenticating with Tinybird.","type":"string"},"statsEndpoint":{"description":"The base URL for Tinybird API endpoints.","type":"string","default":"https://api.tinybird.co"},"trackerDatasource":{"description":"The Tinybird datasource name for tracking data","type":"string","default":"analytics_events"},"trackerEndpoint":{"description":"The endpoint URL for sending tracking data to Tinybird.","type":"string"},"workspaceId":{"description":"The Tinybird workspace ID where data will be sent.","type":"string"}}}}}'
+  release:
+    prefix: ghost-
+    chartRef:
+      kind: HelmChart
+      name: cozylab-ghost
+      namespace: cozy-public
+    labels:
+      cozystack.io/ui: "true"
+  dashboard:
+    category: PaaS
+    singular: Ghost
+    plural: Ghost Instances
+    description: Managed Ghost Service
+    tags:
+      - blogging
+      - cms
+    keysOrder:
+      - - apiVersion
+      - - appVersion
+      - - kind
+      - - metadata
+      - - metadata
+        - name
+      - - spec
+        - storageClass
+      - - spec
+        - replicas
+      - - spec
+        - host
+      - - spec
+        - admin
+      - - spec
+        - admin
+        - url
+      - - spec
+        - database
+      - - spec
+        - database
+        - client
+      - - spec
+        - database
+        - connection
+      - - spec
+        - database
+        - connection
+        - host
+      - - spec
+        - database
+        - connection
+        - user
+      - - spec
+        - database
+        - connection
+        - password
+      - - spec
+        - database
+        - connection
+        - database
+      - - spec
+        - tinybird
+      - - spec
+        - tinybird
+        - trackerEndpoint
+      - - spec
+        - tinybird
+        - adminToken
+      - - spec
+        - tinybird
+        - workspaceId
+      - - spec
+        - tinybird
+        - trackerDatasource
+      - - spec
+        - tinybird
+        - statsEndpoint
+---
+apiVersion: cozystack.io/v1alpha1
+kind: ApplicationDefinition
+metadata:
+  name: mysql
+spec:
+  application:
+    kind: InnoDBCluster
+    plural: innodbclusters
+    singular: mysql
+    openAPISchema: '{"title":"MySQL InnoDB Cluster","type":"object","properties":{"instances":{"description":"Number of MySQL InnoDB Cluster instances.","type":"integer","default":3},"version":{"description":"MySQL server version.","type":"string","default":"9.0.0"},"routerInstances":{"description":"Number of MySQL Router instances.","type":"integer","default":1},"storageSize":{"description":"Persistent volume size for MySQL data.","type":"string","default":"10Gi"},"storageClass":{"description":"StorageClass for persistent volumes.","type":"string","default":""},"memoryLimit":{"description":"Memory limit for each MySQL instance.","type":"string","default":"1Gi"},"cpuLimit":{"description":"CPU limit for each MySQL instance.","type":"string","default":"1000m"}}}'
+  release:
+    prefix: mysql-
+    chartRef:
+      kind: HelmChart
+      name: cozylab-mysql
+      namespace: cozy-public
+    labels:
+      cozystack.io/ui: "true"
+  dashboard:
+    category: PaaS
+    singular: MySQL
+    plural: MySQL Clusters
+    description: Managed MySQL InnoDB Cluster
+    tags:
+      - database
+      - mysql
+    keysOrder:
+      - - apiVersion
+      - - appVersion
+      - - kind
+      - - metadata
+      - - metadata
+        - name
+      - - spec
+        - instances
+      - - spec
+        - version
+      - - spec
+        - routerInstances
+      - - spec
+        - storageSize
+      - - spec
+        - storageClass
+      - - spec
+        - memoryLimit
+      - - spec
+        - cpuLimit

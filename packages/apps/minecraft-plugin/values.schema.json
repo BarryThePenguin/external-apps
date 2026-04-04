@@ -1,0 +1,56 @@
+{
+  "title": "Minecraft Plugin",
+  "type": "object",
+  "properties": {
+    "sourceType": {
+      "description": "Plugin source type.",
+      "type": "string",
+      "enum": ["hangar", "url"],
+      "default": "hangar"
+    },
+    "project": {
+      "description": "Plugin project identifier on Hangar (e.g., BlueMap).",
+      "type": "string",
+      "default": ""
+    },
+    "url": {
+      "description": "Direct download URL (for sourceType: url).",
+      "type": "string",
+      "default": ""
+    },
+    "checksum": {
+      "description": "SHA256 hash of the JAR file (for sourceType: url).",
+      "type": "string",
+      "default": ""
+    },
+    "updateStrategy": {
+      "description": "Update strategy (latest, auto, pin, build-pin).",
+      "type": "string",
+      "enum": ["latest", "auto", "pin", "build-pin"],
+      "default": "latest"
+    },
+    "version": {
+      "description": "Target plugin version (required for pin/build-pin).",
+      "type": "string",
+      "default": ""
+    },
+    "instanceSelector": {
+      "description": "Label selector to match PaperMCServer instances.",
+      "type": "object",
+      "default": {},
+      "properties": {
+        "matchLabels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "port": {
+      "description": "Network port exposed by this plugin (0 = none).",
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

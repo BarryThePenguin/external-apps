@@ -1,0 +1,26 @@
+## @section Cluster configuration
+
+## @param {int} instances=3 - Number of MySQL InnoDB Cluster instances.
+instances: 3
+
+## @param {string} version=9.0.0 - MySQL server version.
+version: "9.0.0"
+
+## @param {int} routerInstances=1 - Number of MySQL Router instances.
+routerInstances: 1
+
+## @section Storage
+
+## @param {string} storageSize=10Gi - Persistent volume size for MySQL data.
+storageSize: 10Gi
+
+## @param {string} storageClass="" - StorageClass for persistent volumes.
+storageClass: ""
+
+## @section Resources
+
+## @param {string} memoryLimit=1Gi - Memory limit for each MySQL instance.
+memoryLimit: 1Gi
+
+## @param {string} cpuLimit=1000m - CPU limit for each MySQL instance.
+cpuLimit: "1000m"

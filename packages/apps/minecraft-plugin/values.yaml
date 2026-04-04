@@ -1,0 +1,31 @@
+## @section Plugin source
+
+## @param {string} sourceType=hangar - Plugin source type (hangar or url).
+sourceType: hangar
+
+## @param {string} project="" - Plugin project identifier on Hangar (e.g., BlueMap).
+project: ""
+
+## @param {string} url="" - Direct download URL (for sourceType: url).
+url: ""
+
+## @param {string} checksum="" - SHA256 hash of the JAR file (for sourceType: url).
+checksum: ""
+
+## @section Version management
+
+## @param {string} updateStrategy=latest - Update strategy (latest, auto, pin, build-pin).
+updateStrategy: latest
+
+## @param {string} version="" - Target plugin version (required for pin/build-pin).
+version: ""
+
+## @section Instance selector
+
+## @param {object} instanceSelector={} - Label selector to match PaperMCServer instances.
+instanceSelector: {}
+
+## @section Optional
+
+## @param {int} port=0 - Network port exposed by this plugin (0 = none).
+port: 0

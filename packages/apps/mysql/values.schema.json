@@ -1,0 +1,41 @@
+{
+  "title": "MySQL InnoDB Cluster",
+  "type": "object",
+  "properties": {
+    "instances": {
+      "description": "Number of MySQL InnoDB Cluster instances.",
+      "type": "integer",
+      "default": 3
+    },
+    "version": {
+      "description": "MySQL server version.",
+      "type": "string",
+      "default": "9.0.0"
+    },
+    "routerInstances": {
+      "description": "Number of MySQL Router instances.",
+      "type": "integer",
+      "default": 1
+    },
+    "storageSize": {
+      "description": "Persistent volume size for MySQL data.",
+      "type": "string",
+      "default": "10Gi"
+    },
+    "storageClass": {
+      "description": "StorageClass for persistent volumes.",
+      "type": "string",
+      "default": ""
+    },
+    "memoryLimit": {
+      "description": "Memory limit for each MySQL instance.",
+      "type": "string",
+      "default": "1Gi"
+    },
+    "cpuLimit": {
+      "description": "CPU limit for each MySQL instance.",
+      "type": "string",
+      "default": "1000m"
+    }
+  }
+}

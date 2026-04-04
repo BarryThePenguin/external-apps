@@ -1,0 +1,48 @@
+{{- $existingSecret := lookup "v1" "Secret" .Release.Namespace (printf "%s-credentials" .Release.Name) }}
+{{- $rootPassword := randAlphaNum 24 }}
+{{- if $existingSecret }}
+  {{- $rootPassword = index $existingSecret.data "rootPassword" | b64dec }}
+{{- end }}
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Release.Name }}-credentials
+stringData:
+  rootUser: root
+  rootHost: "%"
+  rootPassword: {{ $rootPassword | quote }}
+
+---
+
+apiVersion: mysql.oracle.com/v2
+kind: InnoDBCluster
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  secretName: {{ .Release.Name }}-credentials
+  instances: {{ .Values.instances }}
+  version: {{ .Values.version | quote }}
+  router:
+    instances: {{ .Values.routerInstances }}
+  datadirVolumeClaimTemplate:
+    accessModes:
+      - ReadWriteOnce
+    {{- if .Values.storageClass }}
+    storageClassName: {{ .Values.storageClass | quote }}
+    {{- end }}
+    resources:
+      requests:
+        storage: {{ .Values.storageSize | quote }}
+  podSpec:
+    containers:
+      - name: mysql
+        resources:
+          requests:
+            memory: {{ .Values.memoryLimit | quote }}
+            cpu: {{ .Values.cpuLimit | quote }}
+          limits:
+            memory: {{ .Values.memoryLimit | quote }}
+            cpu: {{ .Values.cpuLimit | quote }}
