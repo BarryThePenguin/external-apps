@@ -22,6 +22,7 @@ spec:
     singular: Minecraft Server
     plural: Minecraft Servers
     description: Managed PaperMC Minecraft server with automatic updates and plugin management.
+    icon: {{ .Files.Get "logos/minecraft-server.svg" | b64enc }}
     tags:
       - gaming
       - minecraft
@@ -78,6 +79,7 @@ spec:
     singular: Minecraft Plugin
     plural: Minecraft Plugins
     description: Managed Minecraft plugin with automatic version management and compatibility solving.
+    icon: {{ .Files.Get "logos/minecraft-plugin.svg" | b64enc }}
     tags:
       - gaming
       - minecraft
@@ -128,6 +130,7 @@ spec:
     singular: Ghost
     plural: Ghost Instances
     description: Managed Ghost Service
+    icon: {{ .Files.Get "logos/ghost.svg" | b64enc }}
     tags:
       - blogging
       - cms
@@ -214,6 +217,7 @@ spec:
     singular: MySQL
     plural: MySQL Clusters
     description: Managed MySQL InnoDB Cluster
+    icon: {{ .Files.Get "logos/mysql.svg" | b64enc }}
     tags:
       - database
       - mysql
