@@ -46,3 +46,21 @@ spec:
           limits:
             memory: {{ .Values.memoryLimit | quote }}
             cpu: {{ .Values.cpuLimit | quote }}
+  {{- if .Values.backup.enabled }}
+  backupProfiles:
+    - name: s3-dump
+      dumpInstance:
+        storage:
+          s3:
+            bucketName: {{ .Values.backup.s3.bucket | quote }}
+            config: {{ .Values.backup.s3.credentialsSecret | quote }}
+            prefix: {{ .Release.Name }}/
+            {{- if .Values.backup.s3.endpoint }}
+            endpoint: {{ .Values.backup.s3.endpoint | quote }}
+            {{- end }}
+  backupSchedules:
+    - name: scheduled
+      schedule: {{ .Values.backup.schedule | quote }}
+      backupProfileName: s3-dump
+      enabled: true
+  {{- end }}

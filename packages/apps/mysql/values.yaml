@@ -24,3 +24,24 @@ memoryLimit: 1Gi
 
 ## @param {string} cpuLimit=1000m - CPU limit for each MySQL instance.
 cpuLimit: "1000m"
+
+## @section Backup
+
+## @param {boolean} backup.enabled=false - Enable scheduled S3 dump backups.
+backup:
+  enabled: false
+
+  ## @param {string} backup.schedule=0 2 * * * - Cron schedule for backups.
+  schedule: "0 2 * * *"
+
+  ## @section Backup S3 configuration
+
+  s3:
+    ## @param {string} backup.s3.bucket - S3 bucket name for storing backups.
+    bucket: ""
+
+    ## @param {string} backup.s3.endpoint - S3 endpoint URL (leave empty for AWS; set for SeaweedFS or other).
+    endpoint: ""
+
+    ## @param {string} backup.s3.credentialsSecret - Name of existing Secret with AWS credentials format (aws_access_key_id, aws_secret_access_key).
+    credentialsSecret: ""

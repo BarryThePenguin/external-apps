@@ -203,7 +203,7 @@ spec:
     kind: InnoDBCluster
     plural: innodbclusters
     singular: mysql
-    openAPISchema: '{"title":"MySQL InnoDB Cluster","type":"object","properties":{"instances":{"description":"Number of MySQL InnoDB Cluster instances.","type":"integer","default":3},"version":{"description":"MySQL server version.","type":"string","default":"9.0.0"},"routerInstances":{"description":"Number of MySQL Router instances.","type":"integer","default":1},"storageSize":{"description":"Persistent volume size for MySQL data.","type":"string","default":"10Gi"},"storageClass":{"description":"StorageClass for persistent volumes.","type":"string","default":""},"memoryLimit":{"description":"Memory limit for each MySQL instance.","type":"string","default":"1Gi"},"cpuLimit":{"description":"CPU limit for each MySQL instance.","type":"string","default":"1000m"}}}'
+    openAPISchema: '{"title":"MySQL InnoDB Cluster","type":"object","properties":{"instances":{"description":"Number of MySQL InnoDB Cluster instances.","type":"integer","default":3},"version":{"description":"MySQL server version.","type":"string","default":"9.0.0"},"routerInstances":{"description":"Number of MySQL Router instances.","type":"integer","default":1},"storageSize":{"description":"Persistent volume size for MySQL data.","type":"string","default":"10Gi"},"storageClass":{"description":"StorageClass for persistent volumes.","type":"string","default":""},"memoryLimit":{"description":"Memory limit for each MySQL instance.","type":"string","default":"1Gi"},"cpuLimit":{"description":"CPU limit for each MySQL instance.","type":"string","default":"1000m"},"backup":{"description":"Scheduled S3 dump backup configuration.","type":"object","default":{},"properties":{"enabled":{"description":"Enable scheduled S3 dump backups.","type":"boolean","default":false},"schedule":{"description":"Cron schedule for backups.","type":"string","default":"0 2 * * *"},"s3":{"description":"S3 storage configuration.","type":"object","properties":{"bucket":{"description":"S3 bucket name for storing backups.","type":"string","default":""},"endpoint":{"description":"S3 endpoint URL (leave empty for AWS; set for SeaweedFS or other S3-compatible storage).","type":"string","default":""},"credentialsSecret":{"description":"Name of existing Secret with AWS credentials format (aws_access_key_id, aws_secret_access_key).","type":"string","default":""}}}}}}}'
   release:
     prefix: mysql-
     chartRef:
@@ -242,3 +242,26 @@ spec:
         - memoryLimit
       - - spec
         - cpuLimit
+      - - spec
+        - backup
+      - - spec
+        - backup
+        - enabled
+      - - spec
+        - backup
+        - schedule
+      - - spec
+        - backup
+        - s3
+      - - spec
+        - backup
+        - s3
+        - bucket
+      - - spec
+        - backup
+        - s3
+        - endpoint
+      - - spec
+        - backup
+        - s3
+        - credentialsSecret

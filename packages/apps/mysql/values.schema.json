@@ -36,6 +36,44 @@
       "description": "CPU limit for each MySQL instance.",
       "type": "string",
       "default": "1000m"
+    },
+    "backup": {
+      "description": "Scheduled S3 dump backup configuration.",
+      "type": "object",
+      "default": {},
+      "properties": {
+        "enabled": {
+          "description": "Enable scheduled S3 dump backups.",
+          "type": "boolean",
+          "default": false
+        },
+        "schedule": {
+          "description": "Cron schedule for backups.",
+          "type": "string",
+          "default": "0 2 * * *"
+        },
+        "s3": {
+          "description": "S3 storage configuration.",
+          "type": "object",
+          "properties": {
+            "bucket": {
+              "description": "S3 bucket name for storing backups.",
+              "type": "string",
+              "default": ""
+            },
+            "endpoint": {
+              "description": "S3 endpoint URL (leave empty for AWS; set for SeaweedFS or other S3-compatible storage).",
+              "type": "string",
+              "default": ""
+            },
+            "credentialsSecret": {
+              "description": "Name of existing Secret with AWS credentials format (aws_access_key_id, aws_secret_access_key).",
+              "type": "string",
+              "default": ""
+            }
+          }
+        }
+      }
     }
   }
 }
