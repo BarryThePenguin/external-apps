@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: master
+    branch: main
   timeout: 60s
   url: https://github.com/BarryThePenguin/external-apps.git
 ---
