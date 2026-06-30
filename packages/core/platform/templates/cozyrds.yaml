@@ -22,7 +22,7 @@ spec:
     singular: Minecraft Server
     plural: Minecraft Servers
     description: Managed PaperMC Minecraft server with automatic updates and plugin management.
-    icon: {{ .Files.Get "logos/minecraft-server.svg" | b64enc }}
+    icon: { { .Files.Get "logos/minecraft-server.svg" | b64enc } }
     tags:
       - gaming
       - minecraft
@@ -79,7 +79,7 @@ spec:
     singular: Minecraft Plugin
     plural: Minecraft Plugins
     description: Managed Minecraft plugin with automatic version management and compatibility solving.
-    icon: {{ .Files.Get "logos/minecraft-plugin.svg" | b64enc }}
+    icon: { { .Files.Get "logos/minecraft-plugin.svg" | b64enc } }
     tags:
       - gaming
       - minecraft
@@ -106,3 +106,55 @@ spec:
         - instanceSelector
       - - spec
         - port
+---
+apiVersion: cozystack.io/v1alpha1
+kind: ApplicationDefinition
+metadata:
+  name: mosquitto
+spec:
+  application:
+    kind: Mosquitto
+    plural: mosquittos
+    singular: mosquitto
+    openAPISchema: '{"title":"Eclipse Mosquitto","type":"object","properties":{"version":{"description":"Eclipse Mosquitto image tag (major.minor).","type":"string","default":"2.0"},"size":{"description":"Persistent volume size for Mosquitto data (retained messages).","type":"string","default":"1Gi"},"storageClass":{"description":"StorageClass for persistent volumes.","type":"string","default":""},"external":{"description":"Enable external access via LoadBalancer service.","type":"boolean","default":false},"memoryLimit":{"description":"Memory limit for the Mosquitto container.","type":"string","default":"128Mi"},"cpuLimit":{"description":"CPU limit for the Mosquitto container.","type":"string","default":"100m"},"allowAnonymous":{"description":"Allow anonymous MQTT connections (no auth).","type":"boolean","default":false},"users":{"description":"Map of Mosquitto users (username → password).","type":"object","default":{},"additionalProperties":{"type":"object","required":["password"],"properties":{"password":{"type":"string"}}}}}'
+  release:
+    prefix: mosquitto-
+    chartRef:
+      kind: HelmChart
+      name: cozylab-mosquitto
+      namespace: cozy-public
+    labels:
+      cozystack.io/ui: "true"
+  dashboard:
+    category: PaaS
+    singular: Mosquitto
+    plural: Mosquitto Brokers
+    description: Managed Eclipse Mosquitto MQTT broker
+    icon: { { .Files.Get "logos/mosquitto.svg" | b64enc } }
+    tags:
+      - mqtt
+      - messaging
+    keysOrder:
+      - - apiVersion
+      - - appVersion
+      - - kind
+      - - metadata
+      - - metadata
+        - name
+      - - spec
+      - - spec
+        - version
+      - - spec
+        - size
+      - - spec
+        - storageClass
+      - - spec
+        - external
+      - - spec
+        - memoryLimit
+      - - spec
+        - cpuLimit
+      - - spec
+        - allowAnonymous
+      - - spec
+        - users
