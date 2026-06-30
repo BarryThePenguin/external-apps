@@ -18,6 +18,12 @@ spec:
       port: 1883
       targetPort: mqtt
       protocol: TCP
+    {{- if .Values.websocket }}
+    - name: mqtt-ws
+      port: 9001
+      targetPort: mqtt-ws
+      protocol: TCP
+    {{- end }}
 ---
 apiVersion: v1
 kind: Service
@@ -37,6 +43,12 @@ spec:
       port: 1883
       targetPort: mqtt
       protocol: TCP
+    {{- if .Values.websocket }}
+    - name: mqtt-ws
+      port: 9001
+      targetPort: mqtt-ws
+      protocol: TCP
+    {{- end }}
 {{- if .Values.external }}
 ---
 apiVersion: v1
@@ -58,4 +70,10 @@ spec:
       port: 1883
       targetPort: mqtt
       protocol: TCP
+    {{- if .Values.websocket }}
+    - name: mqtt-ws
+      port: 9001
+      targetPort: mqtt-ws
+      protocol: TCP
+    {{- end }}
 {{- end }}

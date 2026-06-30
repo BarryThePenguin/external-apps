@@ -25,6 +25,12 @@ data:
     listener 1883 0.0.0.0
     protocol mqtt
 
+    {{- if .Values.websocket }}
+    # MQTT-over-WebSocket listener
+    listener 9001 0.0.0.0
+    protocol websockets
+    {{- end }}
+
     {{- if .Values.allowAnonymous }}
     allow_anonymous true
     {{- else }}

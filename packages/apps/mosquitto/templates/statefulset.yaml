@@ -60,6 +60,11 @@ spec:
             - name: mqtt
               containerPort: 1883
               protocol: TCP
+            {{- if .Values.websocket }}
+            - name: mqtt-ws
+              containerPort: 9001
+              protocol: TCP
+            {{- end }}
           livenessProbe:
             tcpSocket:
               port: mqtt

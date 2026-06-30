@@ -12,6 +12,9 @@ storageClass: ""
 ## @param {bool} external=false - Enable external access via LoadBalancer service.
 external: false
 
+## @param {bool} websocket=false - Enable MQTT-over-WebSocket listener on port 9001.
+websocket: false
+
 ## @section Resources
 
 ## @param {string} memoryLimit=128Mi - Memory limit for the Mosquitto container.

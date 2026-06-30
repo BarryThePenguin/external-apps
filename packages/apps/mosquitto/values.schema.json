@@ -22,6 +22,11 @@
       "type": "boolean",
       "default": false
     },
+    "websocket": {
+      "description": "Enable MQTT-over-WebSocket listener on port 9001.",
+      "type": "boolean",
+      "default": false
+    },
     "memoryLimit": {
       "description": "Memory limit for the Mosquitto container.",
       "type": "string",
@@ -43,9 +48,7 @@
       "default": {},
       "additionalProperties": {
         "type": "object",
-        "required": [
-          "password"
-        ],
+        "required": ["password"],
         "properties": {
           "password": {
             "type": "string"
