@@ -1,0 +1,36 @@
+{{- if and .Values.ingress .Values.ingressHost }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: mosquitto
+  {{- with .Values.ingressAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .Values.ingressClassName }}
+  ingressClassName: {{ .Values.ingressClassName | quote }}
+  {{- end }}
+  {{- if .Values.ingressTlsSecret }}
+  tls:
+    - hosts:
+        - {{ .Values.ingressHost | quote }}
+      secretName: {{ .Values.ingressTlsSecret | quote }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingressHost | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Release.Name }}
+                port:
+                  number: 9001
+{{- end }}

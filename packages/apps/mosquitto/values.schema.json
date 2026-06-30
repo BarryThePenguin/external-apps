@@ -27,6 +27,34 @@
       "type": "boolean",
       "default": false
     },
+    "ingress": {
+      "description": "Create a Kubernetes Ingress for the WebSocket listener.",
+      "type": "boolean",
+      "default": false
+    },
+    "ingressHost": {
+      "description": "Hostname for the Ingress (e.g. mqtt.example.com). Required when ingress is true.",
+      "type": "string",
+      "default": ""
+    },
+    "ingressClassName": {
+      "description": "Ingress class name (e.g. \"nginx\"). Leave empty for cluster default.",
+      "type": "string",
+      "default": ""
+    },
+    "ingressTlsSecret": {
+      "description": "Name of the TLS secret for HTTPS termination. Leave empty for HTTP only.",
+      "type": "string",
+      "default": ""
+    },
+    "ingressAnnotations": {
+      "description": "Additional annotations for the Ingress (e.g. cert-manager, rate-limiting).",
+      "type": "object",
+      "default": {},
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
     "memoryLimit": {
       "description": "Memory limit for the Mosquitto container.",
       "type": "string",

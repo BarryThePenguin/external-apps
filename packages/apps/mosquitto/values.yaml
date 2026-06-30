@@ -15,6 +15,27 @@ external: false
 ## @param {bool} websocket=false - Enable MQTT-over-WebSocket listener on port 9001.
 websocket: false
 
+## @section Ingress
+
+## @param {bool} ingress=false - Create a Kubernetes Ingress for the WebSocket listener.
+ingress: false
+
+## @param {string} ingressHost="" - Hostname for the Ingress (e.g. mqtt.example.com). Required when ingress is true.
+ingressHost: ""
+
+## @param {string} ingressClassName="" - Ingress class name (e.g. "nginx"). Leave empty for cluster default.
+ingressClassName: ""
+
+## @param {string} ingressTlsSecret="" - Name of the TLS secret for HTTPS termination. Leave empty for HTTP only.
+ingressTlsSecret: ""
+
+## @param {map[string]string} ingressAnnotations={} - Additional annotations for the Ingress (e.g. cert-manager, rate-limiting).
+ingressAnnotations: {}
+## Example:
+## ingressAnnotations:
+##   cert-manager.io/cluster-issuer: letsencrypt-prod
+##   nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+
 ## @section Resources
 
 ## @param {string} memoryLimit=128Mi - Memory limit for the Mosquitto container.
