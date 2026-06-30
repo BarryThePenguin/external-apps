@@ -31,5 +31,9 @@ allowAnonymous: false
 ## @typedef {struct} User - A Mosquitto user.
 ## @field {string} password - Plaintext password for the user.
 
-## @param {User} users - Map of Mosquitto users (username → password).
+## @param {map[string]User} users - Map of Mosquitto users (username to password).
 users: {}
+## Example:
+## users:
+##   homeassistant:
+##     password: changeme

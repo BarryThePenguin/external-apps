@@ -48,9 +48,12 @@
       "default": {},
       "additionalProperties": {
         "type": "object",
-        "required": ["password"],
+        "required": [
+          "password"
+        ],
         "properties": {
           "password": {
+            "description": "Plaintext password for the user.",
             "type": "string"
           }
         }
