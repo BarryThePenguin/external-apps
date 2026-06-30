@@ -1,5 +1,5 @@
 {
-  "title": "Eclipse Mosquitto",
+  "title": "Chart Values",
   "type": "object",
   "properties": {
     "version": {
@@ -41,13 +41,13 @@
       "description": "Map of Mosquitto users (username → password).",
       "type": "object",
       "default": {},
-      "additionalProperties": {
-        "type": "object",
-        "required": ["password"],
-        "properties": {
-          "password": {
-            "type": "string"
-          }
+      "required": [
+        "password"
+      ],
+      "properties": {
+        "password": {
+          "description": "Plaintext password for the user.",
+          "type": "string"
         }
       }
     }
