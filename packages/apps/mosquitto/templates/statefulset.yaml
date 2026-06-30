@@ -40,7 +40,6 @@ spec:
             - cp /tmp/users/passwd /mosquitto/auth/passwd && mosquitto_passwd -U /mosquitto/auth/passwd && chmod 0700 /mosquitto/auth/passwd
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
             capabilities:
               drop: ["ALL"]
           resources:
