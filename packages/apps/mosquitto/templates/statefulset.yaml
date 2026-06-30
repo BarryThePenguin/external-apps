@@ -1,0 +1,114 @@
+{{- $hasUsers := and (not .Values.allowAnonymous) .Values.users }}
+---
+# renovate: datasource=docker depName=eclipse-mosquitto
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: mosquitto
+spec:
+  replicas: 1
+  serviceName: {{ .Release.Name }}-headless
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/name: mosquitto
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/name: mosquitto
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1883
+        runAsGroup: 1883
+        fsGroup: 1883
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      {{- if $hasUsers }}
+      initContainers:
+        - name: hash-passwords
+          image: eclipse-mosquitto:{{ .Values.version }}
+          command:
+            - /bin/sh
+            - -c
+            - cp /tmp/users/passwd /mosquitto/auth/passwd && mosquitto_passwd -U /mosquitto/auth/passwd && chmod 0700 /mosquitto/auth/passwd
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          volumeMounts:
+            - name: users
+              mountPath: /tmp/users
+              readOnly: true
+            - name: auth
+              mountPath: /mosquitto/auth
+      {{- end }}
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto:{{ .Values.version }}
+          ports:
+            - name: mqtt
+              containerPort: 1883
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: mqtt
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: mqtt
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            limits:
+              cpu: {{ .Values.cpuLimit | quote }}
+              memory: {{ .Values.memoryLimit | quote }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: config
+              mountPath: /mosquitto/config/mosquitto.conf
+              subPath: mosquitto.conf
+              readOnly: true
+            - name: auth
+              mountPath: /mosquitto/auth
+            - name: data
+              mountPath: /mosquitto/data
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-config
+        {{- if $hasUsers }}
+        - name: users
+          secret:
+            secretName: {{ .Release.Name }}-users
+        {{- end }}
+        - name: auth
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        {{- if .Values.storageClass }}
+        storageClassName: {{ .Values.storageClass | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.size | quote }}

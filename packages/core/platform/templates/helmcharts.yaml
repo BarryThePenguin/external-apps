@@ -50,3 +50,16 @@ spec:
     kind: GitRepository
     name: cozylab
   reconcileStrategy: Revision
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmChart
+metadata:
+  name: cozylab-mosquitto
+  namespace: cozy-public
+spec:
+  interval: 5m
+  chart: ./packages/apps/mosquitto
+  sourceRef:
+    kind: GitRepository
+    name: cozylab
+  reconcileStrategy: Revision

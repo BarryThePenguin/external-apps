@@ -1,0 +1,7 @@
+apiVersion: v2
+name: mosquitto
+description: Managed Eclipse Mosquitto MQTT broker
+type: application
+version: 0.0.0
+appVersion: "2.0"
+home: https://mosquitto.org/

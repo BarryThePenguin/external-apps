@@ -1,0 +1,55 @@
+{
+  "title": "Eclipse Mosquitto",
+  "type": "object",
+  "properties": {
+    "version": {
+      "description": "Eclipse Mosquitto image tag (major.minor).",
+      "type": "string",
+      "default": "2.0"
+    },
+    "size": {
+      "description": "Persistent volume size for Mosquitto data (retained messages).",
+      "type": "string",
+      "default": "1Gi"
+    },
+    "storageClass": {
+      "description": "StorageClass for persistent volumes.",
+      "type": "string",
+      "default": ""
+    },
+    "external": {
+      "description": "Enable external access via LoadBalancer service.",
+      "type": "boolean",
+      "default": false
+    },
+    "memoryLimit": {
+      "description": "Memory limit for the Mosquitto container.",
+      "type": "string",
+      "default": "128Mi"
+    },
+    "cpuLimit": {
+      "description": "CPU limit for the Mosquitto container.",
+      "type": "string",
+      "default": "100m"
+    },
+    "allowAnonymous": {
+      "description": "Allow anonymous MQTT connections (no auth).",
+      "type": "boolean",
+      "default": false
+    },
+    "users": {
+      "description": "Map of Mosquitto users (username → password).",
+      "type": "object",
+      "default": {},
+      "additionalProperties": {
+        "type": "object",
+        "required": ["password"],
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

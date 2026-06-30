@@ -22,7 +22,7 @@ spec:
     singular: Minecraft Server
     plural: Minecraft Servers
     description: Managed PaperMC Minecraft server with automatic updates and plugin management.
-    icon: {{ .Files.Get "logos/minecraft-server.svg" | b64enc }}
+    icon: { { .Files.Get "logos/minecraft-server.svg" | b64enc } }
     tags:
       - gaming
       - minecraft
@@ -79,7 +79,7 @@ spec:
     singular: Minecraft Plugin
     plural: Minecraft Plugins
     description: Managed Minecraft plugin with automatic version management and compatibility solving.
-    icon: {{ .Files.Get "logos/minecraft-plugin.svg" | b64enc }}
+    icon: { { .Files.Get "logos/minecraft-plugin.svg" | b64enc } }
     tags:
       - gaming
       - minecraft
@@ -130,7 +130,7 @@ spec:
     singular: Ghost
     plural: Ghost Instances
     description: Managed Ghost Service
-    icon: {{ .Files.Get "logos/ghost.svg" | b64enc }}
+    icon: { { .Files.Get "logos/ghost.svg" | b64enc } }
     tags:
       - blogging
       - cms
@@ -203,7 +203,7 @@ spec:
     kind: InnoDBCluster
     plural: innodbclusters
     singular: mysql
-    openAPISchema: '{"title":"MySQL InnoDB Cluster","type":"object","properties":{"instances":{"description":"Number of MySQL InnoDB Cluster instances.","type":"integer","default":3},"version":{"description":"MySQL server version.","type":"string","default":"9.0.0"},"routerInstances":{"description":"Number of MySQL Router instances.","type":"integer","default":1},"storageSize":{"description":"Persistent volume size for MySQL data.","type":"string","default":"10Gi"},"storageClass":{"description":"StorageClass for persistent volumes.","type":"string","default":""},"memoryLimit":{"description":"Memory limit for each MySQL instance.","type":"string","default":"1Gi"},"cpuLimit":{"description":"CPU limit for each MySQL instance.","type":"string","default":"1000m"},"backup":{"description":"Scheduled S3 dump backup configuration.","type":"object","default":{},"properties":{"enabled":{"description":"Enable scheduled S3 dump backups.","type":"boolean","default":false},"schedule":{"description":"Cron schedule for backups.","type":"string","default":"0 2 * * *"},"s3":{"description":"S3 storage configuration.","type":"object","properties":{"bucket":{"description":"S3 bucket name for storing backups.","type":"string","default":""},"endpoint":{"description":"S3 endpoint URL (leave empty for AWS; set for SeaweedFS or other S3-compatible storage).","type":"string","default":""},"credentialsSecret":{"description":"Name of existing Secret with AWS credentials format (aws_access_key_id, aws_secret_access_key).","type":"string","default":""}}}}}}}'
+    openAPISchema: '{"title":"MySQL InnoDB Cluster","type":"object","properties":{"instances":{"description":"Number of MySQL InnoDB Cluster instances.","type":"integer","default":3},"version":{"description":"MySQL server version.","type":"string","default":"9.0.0"},"routerInstances":{"description":"Number of MySQL Router instances.","type":"integer","default":1},"storageSize":{"description":"Persistent volume size for MySQL data.","type":"string","default":"10Gi"},"storageClass":{"description":"StorageClass for persistent volumes.","type":"string","default":""},"memoryLimit":{"description":"Memory limit for each MySQL instance.","type":"string","default":"1Gi"},"cpuLimit":{"description":"CPU limit for each MySQL instance.","type":"string","default":"1000m"},"backup":{"description":"Backup configuration.","type":"object","default":{},"properties":{"enabled":{"description":"Enable regular backups.","type":"boolean","default":false},"schedule":{"description":"Cron schedule for automated backups.","type":"string","default":"0 2 * * *"},"s3Region":{"description":"AWS S3 region where backups are stored.","type":"string","default":"us-east-1"},"s3Bucket":{"description":"S3 bucket used for storing backups.","type":"string","default":""},"s3Endpoint":{"description":"S3 endpoint URL (leave empty for AWS; set for SeaweedFS or other S3-compatible storage).","type":"string","default":""},"s3AccessKey":{"description":"Access key for S3 authentication.","type":"string","default":""},"s3SecretKey":{"description":"Secret key for S3 authentication.","type":"string","default":""},"resticPassword":{"description":"Password for Restic backup encryption.","type":"string","default":""},"cleanupStrategy":{"description":"Retention strategy for cleaning up old backups.","type":"string","default":"--keep-last=3 --keep-daily=3 --keep-within-weekly=1m"}}}}}'
   release:
     prefix: mysql-
     chartRef:
@@ -217,7 +217,7 @@ spec:
     singular: MySQL
     plural: MySQL Clusters
     description: Managed MySQL InnoDB Cluster
-    icon: {{ .Files.Get "logos/mysql.svg" | b64enc }}
+    icon: { { .Files.Get "logos/mysql.svg" | b64enc } }
     tags:
       - database
       - mysql
@@ -244,24 +244,80 @@ spec:
         - cpuLimit
       - - spec
         - backup
-      - - spec
-        - backup
         - enabled
       - - spec
         - backup
         - schedule
       - - spec
         - backup
-        - s3
+        - s3Region
       - - spec
         - backup
-        - s3
-        - bucket
+        - s3Bucket
       - - spec
         - backup
-        - s3
-        - endpoint
+        - s3Endpoint
       - - spec
         - backup
-        - s3
-        - credentialsSecret
+        - s3AccessKey
+      - - spec
+        - backup
+        - s3SecretKey
+      - - spec
+        - backup
+        - resticPassword
+      - - spec
+        - backup
+        - cleanupStrategy
+---
+apiVersion: cozystack.io/v1alpha1
+kind: ApplicationDefinition
+metadata:
+  name: mosquitto
+spec:
+  application:
+    kind: Mosquitto
+    plural: mosquittos
+    singular: mosquitto
+    openAPISchema: '{"title":"Eclipse Mosquitto","type":"object","properties":{"version":{"description":"Eclipse Mosquitto image tag (major.minor).","type":"string","default":"2.0"},"size":{"description":"Persistent volume size for Mosquitto data (retained messages).","type":"string","default":"1Gi"},"storageClass":{"description":"StorageClass for persistent volumes.","type":"string","default":""},"external":{"description":"Enable external access via LoadBalancer service.","type":"boolean","default":false},"memoryLimit":{"description":"Memory limit for the Mosquitto container.","type":"string","default":"128Mi"},"cpuLimit":{"description":"CPU limit for the Mosquitto container.","type":"string","default":"100m"},"allowAnonymous":{"description":"Allow anonymous MQTT connections (no auth).","type":"boolean","default":false},"users":{"description":"Map of Mosquitto users (username → password).","type":"object","default":{},"additionalProperties":{"type":"object","required":["password"],"properties":{"password":{"type":"string"}}}}}'
+  release:
+    prefix: mosquitto-
+    chartRef:
+      kind: HelmChart
+      name: cozylab-mosquitto
+      namespace: cozy-public
+    labels:
+      cozystack.io/ui: "true"
+  dashboard:
+    category: PaaS
+    singular: Mosquitto
+    plural: Mosquitto Brokers
+    description: Managed Eclipse Mosquitto MQTT broker
+    icon: {{ .Files.Get "logos/mosquitto.svg" | b64enc }}
+    tags:
+      - mqtt
+      - messaging
+    keysOrder:
+      - - apiVersion
+      - - appVersion
+      - - kind
+      - - metadata
+      - - metadata
+        - name
+      - - spec
+      - - spec
+        - version
+      - - spec
+        - size
+      - - spec
+        - storageClass
+      - - spec
+        - external
+      - - spec
+        - memoryLimit
+      - - spec
+        - cpuLimit
+      - - spec
+        - allowAnonymous
+      - - spec
+        - users

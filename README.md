@@ -20,11 +20,12 @@ kubectl get hr -A
 
 ## Available Apps
 
-| Package | Description |
-| --- | --- |
-| ghost | Managed Ghost blogging platform |
-| mysql | Managed MySQL InnoDB Cluster |
+| Package          | Description                                                                   |
+| ---------------- | ----------------------------------------------------------------------------- |
+| ghost            | Managed Ghost blogging platform                                               |
+| mosquitto        | Managed Eclipse Mosquitto MQTT broker                                         |
+| mysql            | Managed MySQL InnoDB Cluster                                                  |
 | minecraft-server | Managed PaperMC Minecraft server with automatic updates and plugin management |
-| minecraft-plugin | Managed Minecraft plugin with automatic version management |
+| minecraft-plugin | Managed Minecraft plugin with automatic version management                    |
 
 Minecraft apps are powered by [minecraft-operator](https://github.com/lexfrei/minecraft-operator) via [cozylex](https://github.com/lexfrei/cozylex).

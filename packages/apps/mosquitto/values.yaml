@@ -1,0 +1,32 @@
+## @section Server configuration
+
+## @param {string} version=2.0 - Eclipse Mosquitto image tag (major.minor).
+version: "2.0"
+
+## @param {string} size=1Gi - Persistent volume size for Mosquitto data (retained messages).
+size: 1Gi
+
+## @param {string} storageClass="" - StorageClass for persistent volumes.
+storageClass: ""
+
+## @param {bool} external=false - Enable external access via LoadBalancer service.
+external: false
+
+## @section Resources
+
+## @param {string} memoryLimit=128Mi - Memory limit for the Mosquitto container.
+memoryLimit: "128Mi"
+
+## @param {string} cpuLimit=100m - CPU limit for the Mosquitto container.
+cpuLimit: "100m"
+
+## @section Authentication
+
+## @param {bool} allowAnonymous=false - Allow anonymous MQTT connections (no auth).
+allowAnonymous: false
+
+## @typedef {struct} User - A Mosquitto user.
+## @field {string} password - Plaintext password for the user.
+
+## @param {User} users - Map of Mosquitto users (username → password).
+users: {}
