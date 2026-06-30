@@ -5,10 +5,3 @@ metadata:
   labels:
     cozystack.io/system: "true"
   name: cozylab-minecraft-operator
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  labels:
-    cozystack.io/system: "true"
-  name: cozylab-mysql-operator

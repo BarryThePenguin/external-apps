@@ -28,32 +28,6 @@ spec:
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmChart
 metadata:
-  name: cozylab-ghost
-  namespace: cozy-public
-spec:
-  interval: 5m
-  chart: ./packages/apps/ghost
-  sourceRef:
-    kind: GitRepository
-    name: cozylab
-  reconcileStrategy: Revision
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmChart
-metadata:
-  name: cozylab-mysql
-  namespace: cozy-public
-spec:
-  interval: 5m
-  chart: ./packages/apps/mysql
-  sourceRef:
-    kind: GitRepository
-    name: cozylab
-  reconcileStrategy: Revision
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmChart
-metadata:
   name: cozylab-mosquitto
   namespace: cozy-public
 spec:
